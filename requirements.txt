@@ -1,0 +1,6 @@
+django
+django-bootstrap4
+docxtpl
+xlsxtpl
+django-import-export
+django-crispy-forms

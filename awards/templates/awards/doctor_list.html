@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Список врачей</h1>
+<form method='GET'>
+  <input type='text' name='q' value='{{ request.GET.q }}'>
+  <input class="button" type='submit' value="Поиск">
+</form>
+
+<ul>
+{% for doct in object_list %}
+    <li>{{ doct }} {{ doct.birthday|date }} ({{doct.lpu}})</li>
+    <ul>
+    {% for award in doct.award_set.all %}
+      <li> {{ award }} </li>
+    {% endfor %}
+    </ul>
+{% empty %}
+    <li>Нет записей.</li>
+{% endfor %}
+</ul>
+{% endblock %}
