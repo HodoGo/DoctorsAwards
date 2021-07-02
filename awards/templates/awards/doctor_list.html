@@ -1,4 +1,7 @@
-{% extends "base.html" %}
+  
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
 
 {% block content %}
     <h1>Список врачей</h1>
@@ -6,17 +9,23 @@
   <input type='text' name='q' value='{{ request.GET.q }}'>
   <input class="button" type='submit' value="Поиск">
 </form>
-
-<ul>
-{% for doct in object_list %}
-    <li>{{ doct }} {{ doct.birthday|date }} ({{doct.lpu}})</li>
-    <ul>
-    {% for award in doct.award_set.all %}
-      <li> {{ award }} </li>
-    {% endfor %}
-    </ul>
+<br/>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">ФИО ДР</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for doct in object_list %}
+    <tr>
+      <td>#</td>
+      <td><a href="{{ doct.get_absolute_url }}">{{ doct }} {{ doct.birthday|date }} ({{doct.lpu}})</td></li>    
+    </tr>
 {% empty %}
-    <li>Нет записей.</li>
-{% endfor %}
-</ul>
+    <tr>Нет записей.</td>
+{% endfor %}   
+  </tbody>
+</table>
 {% endblock %}

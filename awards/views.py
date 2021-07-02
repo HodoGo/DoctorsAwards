@@ -1,8 +1,10 @@
+from django.db import models
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from .models import Doctor
 #from .forms import BookCreate
 from django.http import HttpResponse
+
 
 #DataFlair
 def index(request):
@@ -18,3 +20,6 @@ class DoctorHome(ListView):
         else:
             object_list = self.model.objects.all()
         return object_list
+
+class DoctorDetailView(DetailView):
+    model = Doctor

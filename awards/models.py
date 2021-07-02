@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Lpu(models.Model):
   code_lpu = models.IntegerField(verbose_name='Код лпу')
@@ -38,6 +39,8 @@ class Doctor(models.Model):
 
   def __str__(self):
       return self.lastname +' ' + self.firstname
+  def get_absolute_url(self):
+    return reverse('doctor-detail', kwargs={'pk': self.pk})    
 
   class Meta:
     verbose_name = 'Врач'
@@ -46,7 +49,7 @@ class Doctor(models.Model):
 class Award(models.Model):
   name_award = models.CharField(max_length=50)
   number_award = models.IntegerField()
-  date_order_award = models.DateTimeField()
+  date_order_award = models.DateField()
   doctor = models.ForeignKey('Doctor', on_delete=models.PROTECT)
 
   def __str__(self):

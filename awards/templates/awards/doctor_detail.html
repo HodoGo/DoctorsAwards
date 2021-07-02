@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+{% block content %}
+  <h2>{{ object.lastname }} {{ object.firstname }} {{ object.fathername }} {{ object.birthday|date }}</h2>
+
+  <h1>Награды</h1>
+  <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Название награды</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for award in object.award_set.all %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{ award }}</td>
+      </tr>
+    {% endfor %}    
+  </tbody>
+</table>
+{% endblock %}

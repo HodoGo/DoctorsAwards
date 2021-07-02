@@ -6,6 +6,11 @@ class AwardInline(admin.TabularInline):
   model = Award
   extra = 0
 
+class AwardAdmin(admin.ModelAdmin):
+  list_display = ('number_award','name_award','date_order_award','doctor','lpu')
+  def lpu(self, obj):
+        return obj.doctor.lpu
+
 class DoctorAdmin(admin.ModelAdmin):
   list_display = ('get_fio','birthday','lpu')
   inlines = [AwardInline]
@@ -21,7 +26,7 @@ class DoctorAdmin(admin.ModelAdmin):
 class LpuAdmin(admin.ModelAdmin):
   list_display = ('name_lpu','count_doctors')  
 
-admin.site.register(Award)
+admin.site.register(Award,AwardAdmin)
 admin.site.register(Doctor,DoctorAdmin)
 admin.site.register(Post)
 admin.site.register(Lpu,LpuAdmin)
