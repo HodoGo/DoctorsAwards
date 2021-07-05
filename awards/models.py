@@ -34,6 +34,9 @@ class Doctor(models.Model):
   birthday = models.DateField(verbose_name='Дата рождения')
   lpu = models.ForeignKey('Lpu', on_delete=models.PROTECT,related_name='doctors',verbose_name='ЛПУ')
   post = models.ForeignKey('Post', on_delete=models.PROTECT,verbose_name='Должность')
+  experience_all = models.IntegerField(verbose_name='общий')
+  experience_branch = models.IntegerField(verbose_name='в отрасли')
+  experience_last = models.IntegerField(verbose_name='на последнем месте')
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
@@ -43,18 +46,40 @@ class Doctor(models.Model):
     return reverse('doctor-detail', kwargs={'pk': self.pk})    
 
   class Meta:
-    verbose_name = 'Врач'
-    verbose_name_plural = 'Врачи'     
+    verbose_name = 'Сотрудник'
+    verbose_name_plural = 'Сотрудники'     
 
 class Award(models.Model):
-  name_award = models.CharField(max_length=50)
-  number_award = models.IntegerField()
-  date_order_award = models.DateField()
-  doctor = models.ForeignKey('Doctor', on_delete=models.PROTECT)
+  AWARD_STATUS = (
+      ('draft','На расмотрении'),
+      ('refused','Отклонен'),
+      ('approved','Подтвержден')
+    )
+
+  incoming_num = models.IntegerField(verbose_name='Вх. №')
+  incoming_date = models.DateField(verbose_name='Вх. дата')
+  doctor = models.ForeignKey('Doctor', on_delete=models.PROTECT,verbose_name='Сотрудник')
+  type_award = models.ForeignKey('AwardType',on_delete=models.PROTECT,verbose_name='Тип награды')
+  year_award = models.IntegerField(verbose_name='Год награды')
+  number_award = models.CharField(max_length=50,verbose_name='Номер приказа')
+  date_order_award = models.DateField(verbose_name='Дата приказа')  
+  status = models.CharField(max_length=10,choices=AWARD_STATUS)
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.name_award + ' №' + str(self.number_award) + ' от ' + self.date_order_award.strftime("%d.%m.%Y")
+    return str(self.type_award) + ' №' + self.number_award + ' от ' + self.date_order_award.strftime("%d.%m.%Y")
 
   class Meta:
     verbose_name = 'Награда'
-    verbose_name_plural = 'Награды'     
+    verbose_name_plural = 'Награды'    
+
+class AwardType(models.Model):
+  awardtype_name = models.CharField(max_length=50)
+
+  def __str__(self):
+      return self.awardtype_name
+
+  class Meta:
+    verbose_name = 'Вид наград'
+    verbose_name_plural = 'Виды нарад'  

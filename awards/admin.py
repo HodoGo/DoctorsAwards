@@ -1,13 +1,18 @@
 from django.contrib import admin
 from django.db import models
-from awards.models import Award,Doctor,Post,Lpu
+
+from awards.models import Award,Doctor,Post,Lpu,AwardType
+
 
 class AwardInline(admin.TabularInline):
   model = Award
   extra = 0
 
+class AwardTypeAdmin(admin.ModelAdmin):
+  model = AwardType
+
 class AwardAdmin(admin.ModelAdmin):
-  list_display = ('number_award','name_award','date_order_award','doctor','lpu')
+  list_display = ('number_award','type_award','date_order_award','doctor','lpu')
   def lpu(self, obj):
         return obj.doctor.lpu
 
@@ -27,6 +32,7 @@ class LpuAdmin(admin.ModelAdmin):
   list_display = ('name_lpu','count_doctors')  
 
 admin.site.register(Award,AwardAdmin)
+admin.site.register(AwardType,AwardTypeAdmin)
 admin.site.register(Doctor,DoctorAdmin)
 admin.site.register(Post)
 admin.site.register(Lpu,LpuAdmin)
