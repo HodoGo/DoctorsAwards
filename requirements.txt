@@ -4,3 +4,5 @@ docxtpl
 xlsxtpl
 django-import-export
 django-crispy-forms
+django-admin-rangefilter
+easy_select2

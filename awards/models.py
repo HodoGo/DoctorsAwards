@@ -41,9 +41,12 @@ class Doctor(models.Model):
   updated_at = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-      return self.lastname +' ' + self.firstname
+      return '%s %s %s %s' % (self.lastname, self.firstname,self.fathername,self.birthday.strftime("%m.%d.%Y")) 
   def get_absolute_url(self):
-    return reverse('doctor-detail', kwargs={'pk': self.pk})    
+    return reverse('doctor-detail', kwargs={'pk': self.pk})
+  @property  
+  def count_awards(self):
+    return self.award.count()    
 
   class Meta:
     verbose_name = 'Сотрудник'
@@ -58,21 +61,25 @@ class Award(models.Model):
 
   incoming_num = models.IntegerField(verbose_name='Вх. №')
   incoming_date = models.DateField(verbose_name='Вх. дата')
-  doctor = models.ForeignKey('Doctor', on_delete=models.PROTECT,verbose_name='Сотрудник')
+  doctor = models.ForeignKey('Doctor', on_delete=models.PROTECT,related_name='award',verbose_name='Сотрудник')
   type_award = models.ForeignKey('AwardType',on_delete=models.PROTECT,verbose_name='Тип награды')
   year_award = models.IntegerField(verbose_name='Год награды')
-  number_award = models.CharField(max_length=50,verbose_name='Номер приказа')
-  date_order_award = models.DateField(verbose_name='Дата приказа')  
+  number_award = models.CharField(max_length=50,verbose_name='Номер приказа',null=True,blank=True)
+  date_order_award = models.DateField(verbose_name='Дата приказа',null=True,blank=True)  
   status = models.CharField(max_length=10,choices=AWARD_STATUS)
+  refused_text = models.CharField(max_length=200,verbose_name="Причина отказа",null=True,blank=True)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return str(self.type_award) + ' №' + self.number_award + ' от ' + self.date_order_award.strftime("%d.%m.%Y")
+    return str(self.type_award) + ' №' + str(self.incoming_num) + ' от ' + self.incoming_date.strftime("%d.%m.%Y")
+
+ 
 
   class Meta:
     verbose_name = 'Награда'
     verbose_name_plural = 'Награды'    
+    ordering = ['-incoming_date']
 
 class AwardType(models.Model):
   awardtype_name = models.CharField(max_length=50)

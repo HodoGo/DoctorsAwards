@@ -2,14 +2,68 @@
 
 {% load bootstrap4 %}
 {% block content %}
-  <h2>{{ object.lastname }} {{ object.firstname }} {{ object.fathername }} {{ object.birthday|date }}</h2>
-
+<table class="table" border="1">
+	<tbody>
+		<tr>
+			<td colspan="6"><b>Вх. {{object.award.first.incoming_num}}</b></td>
+		</tr>
+		<tr>
+			<td><b>Поступил</b></td>
+			<td>{{object.award.first.type_award}}</td>
+      {% if object.award.first.status == "refused" %}
+        <td><b>Награжден</b></td>
+        <td>Отказ</td>
+        <td><b>причина отказа</b></td>
+        <td>{{object.award.first.refused_text}}</td>
+      {% elif object.award.first.status == "draft" %}
+        <td><b>Награжден</b></td>
+        <td>На расмотрении</td>
+        <td><b>причина отказа</b></td>
+        <td</td>
+      {% else %}
+        <td><b>Награжден</b></td>
+        <td>№{{object.award.first.number_award}} от {{object.award.first.date_order_award}}</td>
+        <td><b>причина отказа</b></td>
+        <td></td>
+      {% endif %}			
+		</tr>
+		<tr>
+			<td align="center"><b>ФИО</b></td>
+			<td colspan="5">{{ object.lastname }} {{ object.firstname }} {{ object.fathername }} </td>
+		</tr>
+		<tr>
+			<td align="center"><b>дата рождения</b></td>
+			<td colspan="5">{{ object.birthday|date }}</td>
+		</tr>
+		<tr>
+			<td align="center"><b>должность</b></td>
+			<td colspan="5">{{ object.post }}</td>
+		</tr>
+		<tr>
+			<td align="center"><b>учреждение</b></td>
+			<td colspan="5">{{ object.lpu }}</td>
+		</tr>
+		<tr>
+			<td align="center"><b>стаж</b></td>
+			<td colspan="5">{{object.experience_all }} - {{ object.experience_branch }} - {{ object.experience_last }}<br/> (Общий; в отрасли; на последнем месте)</td>
+		</tr>
+		<tr>
+			<td colspan="6"><b>имющиеся нарграды по годам:</b></td>
+		</tr>
+    {% for award in object.award.all %}
+      <tr>
+        <td colspan="6">{{ award }}</td>
+      </tr>
+    {% endfor %} 		
+	</tbody>
+</table>  
+<!--
   <h1>Награды</h1>
   <table class="table">
   <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Название награды</th>
+      <th scope="col">имющиеся нарграды по годам:</th>
     </tr>
   </thead>
   <tbody>
@@ -20,5 +74,5 @@
       </tr>
     {% endfor %}    
   </tbody>
-</table>
+</table>-->
 {% endblock %}

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'awards',
-    'bootstrap4',
+    'bootstrap4', 
+    'easy_select2',
+    'rangefilter',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -127,4 +130,8 @@ _PATH = os.path.abspath(os.path.dirname(__file__))
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(_PATH, 'static') # пустая папка, сюда будет собирать статику collectstatic
+ 
+STATIC_URL = '/static/' # URL для шаблонов
+
 
