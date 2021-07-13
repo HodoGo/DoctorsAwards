@@ -1,8 +1,12 @@
 django
+pandas
 django-bootstrap4
 docxtpl
 xlsxtpl
 django-import-export
 django-crispy-forms
 django-admin-rangefilter
-easy_select2
+django-easy-select2
+django-data-browser
+django-grappelli
+django-bootstrap-datepicker-plus

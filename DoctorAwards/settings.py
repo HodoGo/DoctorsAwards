@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bootstrap4', 
     'easy_select2',
     'rangefilter',
+    'bootstrap_datepicker_plus',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -114,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -134,4 +135,6 @@ STATIC_ROOT = os.path.join(_PATH, 'static') # пустая папка, сюда 
  
 STATIC_URL = '/static/' # URL для шаблонов
 
-
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}

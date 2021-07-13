@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.forms import ModelForm
 
 class Lpu(models.Model):
   code_lpu = models.IntegerField(verbose_name='Код лпу')
@@ -51,6 +52,11 @@ class Doctor(models.Model):
   class Meta:
     verbose_name = 'Сотрудник'
     verbose_name_plural = 'Сотрудники'     
+
+class DoctorForm(ModelForm):
+    class Meta:
+        model = Doctor
+        fields = ['lastname', 'birthday']
 
 class Award(models.Model):
   AWARD_STATUS = (

@@ -1,0 +1,8 @@
+{% extends "admin/change_list_object_tools.html" %}
+{% block object-tools-items %}
+    {{ block.super }}
+    {% if ddb_url %}
+        <li><a href="{% url 'form_report' %}" class="viewlink">Отчеты</a></li>
+    {% endif %}
+    <li><a href="{% url 'form_report' %}" class="viewlink">Отчеты</a></li>
+{% endblock %}

@@ -1,0 +1,89 @@
+  
+{% extends 'base_i.html' %}
+
+{% load static %}
+
+{% block header %}
+ <header class="site-header">
+        <div class="nav-bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="site-branding d-flex align-items-center">
+                           <a class="d-block" href="{% url 'index'%}" rel="home"><img class="d-block" src="{% static 'images/logo.png'%}" alt="logo"></a>
+                        </div><!-- .site-branding -->
+
+                        <nav class="site-navigation d-flex justify-content-end align-items-center">
+                            <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-items-center">
+                                <li class="current-menu-item"><a href="{% url 'index'%}">Главная</a></li>
+                                <li><a href="{% url 'all_report' %}">Пример отчета</a></li>
+                                <li><a href="{% url 'form_report' %}">Форма для отчета</a></li>
+                                <li><a href="/admin/">База данных</a></li>
+
+                                <li class="call-btn button gradient-bg mt-3 mt-md-0">
+                                    <a class="d-flex justify-content-center align-items-center" href="#"><img src="{% static 'images/emergency-call.png'%}"> +7 987052863</a>
+                                </li>
+                            </ul>
+                        </nav><!-- .site-navigation -->
+
+                        <div class="hamburger-menu d-lg-none">
+                            <span>Награды</span>
+                            <span>Сотрудники</span>
+                            <span></span>
+                            <span></span>
+                        </div><!-- .hamburger-menu -->
+                    </div><!-- .col -->
+                </div><!-- .row -->
+            </div><!-- .container -->
+        </div><!-- .nav-bar -->
+
+        <img class="header-img" src="{% static 'images/elements-bg.png'%}" alt="">
+ </header><!-- .site-header -->
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+<div class="row elements-wrap">
+            <div class="col-12">
+                <header class="entry-header elements-heading">
+                    <h2 class="entry-title">Форма для отчета</h2>
+                </header>
+
+                <div class="entry-content elements-container">
+                    <div class="row">
+                          <div class="col-12 col-md-6">
+                            <form method="POST">
+                              {% csrf_token %} 
+                              {{ form.as_p }}
+                              <input type="submit" value="Поиск" class="button gradient-bg">
+                            </form> 
+                          </div>
+                        <div class="col-12 col-md-6">
+                           <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Вх. №</th>
+                                <th scope="col">Вх. дата</th>
+                                <th scope="col">ФИО</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                          {% for doct in queryset %}
+                              <tr>
+                                <td>{{doct.incoming_num}}</td>   
+                                <td>{{doct.incoming_date|date}}</td> 
+                                <td>{{doct.doctor}}</td> 
+                              </tr>
+                          {% empty %}
+                              <tr>Нет записей.</td>
+                          {% endfor %}   
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>  
+
+{% endblock %}

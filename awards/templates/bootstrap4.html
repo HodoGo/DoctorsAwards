@@ -22,8 +22,10 @@
     {% if 'javascript_in_head'|bootstrap_setting %}
         {% bootstrap_javascript %}
     {% endif %}
-
+    
+    
     {% block bootstrap4_extra_head %}{% endblock %}
+
 
 </head>
 
@@ -39,6 +41,8 @@
 
 {% block bootstrap4_extra_script %}{% endblock %}
 
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }}  
 </body>
 
 </html>

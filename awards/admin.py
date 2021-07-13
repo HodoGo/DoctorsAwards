@@ -4,6 +4,9 @@ from easy_select2 import select2_modelform
 from awards.models import Award,Doctor,Post,Lpu,AwardType
 from django.urls import reverse
 from rangefilter.filters import DateRangeFilter
+from docxtpl import DocxTemplate
+import os
+from django.http import HttpResponse
 
 class AwardInline(admin.TabularInline):
   model = Award
@@ -31,12 +34,27 @@ class DoctorAdmin(admin.ModelAdmin):
   inlines = [AwardInline]
   list_filter = (('award__incoming_date', DateRangeFilter),)
   search_fields = ['lastname','award__incoming_num']
+  actions = ['export_to_docx']
   list_per_page = 30
 
   def get_fio(self,obj):
     return obj.lastname + ' ' + obj.firstname+' '+obj.fathername
   get_fio.admin_order_field  = 'lastname'  #Allows column order sorting
   get_fio.short_description = 'ФИО'  #Renames column head
+  def export_to_docx(self, request, queryset): 
+    _PATH = os.path.abspath(os.path.dirname(__file__))
+    DOCX_TEMP = os.path.join(_PATH, 'static', 'my_word_template.docx')
+    doc = DocxTemplate(DOCX_TEMP)
+    context = { 'company_name' : "Отчет export_to_docx",
+          'object_list': queryset
+            }
+    doc.render(context)
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = 'attachment; filename=download.docx'
+    doc.save(response)           
+    message_bit = "Выгружен отчет в docx"    
+    self.message_user(request, "%s успешно!" % message_bit)  
+    return response   
 
 
 class LpuAdmin(admin.ModelAdmin):
